@@ -143,7 +143,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 > 
 > Robię projekt na uczelnię z hurtowni danych o serialach z bazy TMDB (TMDB_tv_dataset_v3.csv). Muszę dostarczyć bazę, w której analitycy będą mogli łatwo liczyć popularność i oceny dla poszczególnych gatunków, studiów i lat.
 > 
-> Załączony schemat pokazuje dokładnie, jak to ma wyglądać. Główna tabela to Fact_TV_Show z liczbami. Zwróć uwagę, że seriale mają po kilka wartości w jednej komórce (genres, networks, oddzielone przecinkami w CSV). Dlatego na schemacie zrobiłem układ płatka śniegu i mostki do relacji N:M np. Bridge_Show_Genre.
+> Załączony schemat pokazuje dokładnie, jak to ma wyglądać. Główna tabela to Fact_TV_Show z liczbami. Zwróć uwagę, że seriale mają po kilka wartości w jednej komórce (genres, networks, oddzielone przecinkami w CSV). Dlatego na schemacie zrobiłem układ gwiazdy i mostki do relacji N:M np. Bridge_Show_Genre.
 > 
 > Napisz skrypt w Pythonie (Pandas). Ma on robić:
 > Rozbijanie list po przecinkach np. explode, żeby zbudować tabele pomostowe dla N:M.
