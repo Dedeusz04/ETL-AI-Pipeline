@@ -29,7 +29,7 @@ Dla każdego z wariantów wygenerowany został kod procesu ETL, który był uruc
 
 Sprawdzono, ile wierszy z oryginalnego CSV (168 639 rekordów) trafiło do wygenerowanej tabeli faktów. Relacja serial -> fakt to 1:1, więc docelowa tabela powinna mieć dokładnie tyle samo wierszy.
 
-* **P1 Minimalny**: Okazało się, że skrypt wygenerował własne dane (4 rekordy). Baza źródłowa została całkowicie pominięta z powodu błędu ścieżki.
+* **P1 Minimalny**: Okazało się, że skrypt wygenerował własne dane (4 rekordy).
 * **P2, P3, P4, P6**: Skrypty przepisały 100% danych, bez żadnych strat.
 * **P5, P7**: Zauważalne straty (w P5 zostało 164 705 wierszy, w P7 167 059). 
 
