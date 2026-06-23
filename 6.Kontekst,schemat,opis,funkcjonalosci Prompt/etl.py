@@ -1,3 +1,5 @@
+
+import sqlite3
 import pandas as pd
 import numpy as np
 import os
@@ -133,13 +135,14 @@ if __name__ == "__main__":
     if os.path.exists(file_path):
         tables = process_tmdb_data(file_path)
         
-        # Zapis wyników ETL do folderu 'etl_output'
+        # Zapis wyników ETL do bazy SQLite
         output_dir = os.path.join(script_dir, "etl_output")
         os.makedirs(output_dir, exist_ok=True)
         
+        conn = sqlite3.connect('hurtownia.db')
         for table_name, df_table in tables.items():
-            out_file = os.path.join(output_dir, f"{table_name}.csv")
-            df_table.to_csv(out_file, index=False)
-            print(f"Saved {table_name} to {out_file} (Rows: {len(df_table)})")
+            df_table.to_sql(table_name, conn, if_exists='replace', chunksize=10000, index=False)
+            print(f"Saved {table_name} to SQLite (Rows: {len(df_table)})")
+        conn.close()
     else:
         print(f"Error: Dataset not found at {file_path}")

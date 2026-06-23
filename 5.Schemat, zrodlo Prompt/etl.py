@@ -1,3 +1,4 @@
+import sqlite3
 import pandas as pd
 import os
 
@@ -71,25 +72,28 @@ def main():
     fact_tv_show_out['first_air_date_id'] = fact_tv_show_out['first_air_date_id'].astype('Int64')
     fact_tv_show_out['last_air_date_id'] = fact_tv_show_out['last_air_date_id'].astype('Int64')
 
-    print("Exporting data to CSV files...")
-    dim_date_out.to_csv(f"{output_dir}/Dim_Date.csv", index=False)
-    dim_title_out.to_csv(f"{output_dir}/Dim_Title.csv", index=False)
-    dim_show_attributes_out.to_csv(f"{output_dir}/Dim_ShowAttributes.csv", index=False)
+    print("Exporting data to SQLite database...")
+    print('Connecting to SQLite database hurtownia.db...')
+    conn = sqlite3.connect('hurtownia.db')
+    dim_date_out.to_sql('Dim_Date', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_title_out.to_sql('Dim_Title', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_show_attributes_out.to_sql('Dim_ShowAttributes', conn, if_exists='replace', chunksize=10000, index=False)
     
-    dim_genre_out.to_csv(f"{output_dir}/Dim_Genre.csv", index=False)
-    bridge_show_genre_out.to_csv(f"{output_dir}/Bridge_Show_Genre.csv", index=False)
+    dim_genre_out.to_sql('Dim_Genre', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_show_genre_out.to_sql('Bridge_Show_Genre', conn, if_exists='replace', chunksize=10000, index=False)
     
-    dim_creator_out.to_csv(f"{output_dir}/Dim_Creator.csv", index=False)
-    bridge_show_creator_out.to_csv(f"{output_dir}/Bridge_Show_Creator.csv", index=False)
+    dim_creator_out.to_sql('Dim_Creator', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_show_creator_out.to_sql('Bridge_Show_Creator', conn, if_exists='replace', chunksize=10000, index=False)
     
-    dim_network_out.to_csv(f"{output_dir}/Dim_Network.csv", index=False)
-    bridge_show_network_out.to_csv(f"{output_dir}/Bridge_Show_Network.csv", index=False)
+    dim_network_out.to_sql('Dim_Network', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_show_network_out.to_sql('Bridge_Show_Network', conn, if_exists='replace', chunksize=10000, index=False)
     
-    dim_production_company_out.to_csv(f"{output_dir}/Dim_ProductionCompany.csv", index=False)
-    bridge_show_production_company_out.to_csv(f"{output_dir}/Bridge_Show_ProductionCompany.csv", index=False)
+    dim_production_company_out.to_sql('Dim_ProductionCompany', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_show_production_company_out.to_sql('Bridge_Show_ProductionCompany', conn, if_exists='replace', chunksize=10000, index=False)
     
-    fact_tv_show_out.to_csv(f"{output_dir}/Fact_TV_Show.csv", index=False)
+    fact_tv_show_out.to_sql('Fact_TV_Show', conn, if_exists='replace', chunksize=10000, index=False)
 
+    conn.close()
     print("ETL Process completed successfully!")
 
 if __name__ == '__main__':

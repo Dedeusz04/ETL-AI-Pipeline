@@ -1,3 +1,4 @@
+import sqlite3
 import pandas as pd
 import numpy as np
 import os
@@ -94,27 +95,33 @@ def process_data(input_file, output_dir='.'):
     # Zapis tabel do formatu CSV
     # ==========================
     tables = {
-        'Dim_Title.csv': dim_title,
-        'Dim_Date.csv': dim_date,
-        'Dim_ShowAttributes.csv': dim_attributes,
-        'Dim_Genre.csv': dim_genre,
-        'Bridge_Show_Genre.csv': bridge_genre,
-        'Dim_Creator.csv': dim_creator,
-        'Bridge_Show_Creator.csv': bridge_creator,
-        'Dim_Network.csv': dim_network,
-        'Bridge_Show_Network.csv': bridge_network,
-        'Dim_ProductionCompany.csv': dim_company,
-        'Bridge_Show_ProductionCompany.csv': bridge_company,
-        'Fact_TV_Show.csv': fact_tv_show
+        'Dim_Title': dim_title,
+        'Dim_Date': dim_date,
+        'Dim_ShowAttributes': dim_attributes,
+        'Dim_Genre': dim_genre,
+        'Bridge_Show_Genre': bridge_genre,
+        'Dim_Creator': dim_creator,
+        'Bridge_Show_Creator': bridge_creator,
+        'Dim_Network': dim_network,
+        'Bridge_Show_Network': bridge_network,
+        'Dim_ProductionCompany': dim_company,
+        'Bridge_Show_ProductionCompany': bridge_company,
+        'Fact_TV_Show': fact_tv_show
     }
     
-    for filename, dataframe in tables.items():
-        filepath = os.path.join(output_dir, filename)
-        dataframe.to_csv(filepath, index=False)
-        print(f"Zapisano: {filepath}")
+    conn = sqlite3.connect('hurtownia.db')
+    for table_name, dataframe in tables.items():
+        dataframe.to_sql(table_name, conn, if_exists='replace', chunksize=10000, index=False)
+        print(f"Zapisano: {table_name} do SQLite")
+    conn.close()
         
     print("\nProces ETL zakończony. Pliki struktury hurtowni danych zostały wygenerowane.")
 
 if __name__ == '__main__':
     # Generowanie tabel z pliku TMDB_tv_dataset_v3.csv w bieżącym katalogu
     process_data('TMDB_tv_dataset_v3.csv')
+
+    try:
+        conn.close()
+    except:
+        pass

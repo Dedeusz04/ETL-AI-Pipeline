@@ -1,3 +1,4 @@
+import sqlite3
 import pandas as pd
 import ast
 
@@ -186,20 +187,23 @@ def process_etl():
     # ---------------------------------------------------------
     # 6. Save to CSV
     # ---------------------------------------------------------
-    print("Saving to CSV files...")
-    fact_show.to_csv('Fact_TV_Show.csv', index=False)
-    dim_title.to_csv('Dim_Title.csv', index=False)
-    dim_date.to_csv('Dim_Date.csv', index=False)
-    dim_show_attr.to_csv('Dim_ShowAttributes.csv', index=False)
-    dim_genre.to_csv('Dim_Genre.csv', index=False)
-    bridge_genre.to_csv('Bridge_Show_Genre.csv', index=False)
-    dim_creator.to_csv('Dim_Creator.csv', index=False)
-    bridge_creator.to_csv('Bridge_Show_Creator.csv', index=False)
-    dim_network.to_csv('Dim_Network.csv', index=False)
-    bridge_network.to_csv('Bridge_Show_Network.csv', index=False)
-    dim_company.to_csv('Dim_ProductionCompany.csv', index=False)
-    bridge_company.to_csv('Bridge_Show_ProductionCompany.csv', index=False)
+    print("Saving tables to SQLite database...")
+    print('Connecting to SQLite database hurtownia.db...')
+    conn = sqlite3.connect('hurtownia.db')
+    fact_show.to_sql('Fact_TV_Show', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_title.to_sql('Dim_Title', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_date.to_sql('Dim_Date', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_show_attr.to_sql('Dim_ShowAttributes', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_genre.to_sql('Dim_Genre', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_genre.to_sql('Bridge_Show_Genre', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_creator.to_sql('Dim_Creator', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_creator.to_sql('Bridge_Show_Creator', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_network.to_sql('Dim_Network', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_network.to_sql('Bridge_Show_Network', conn, if_exists='replace', chunksize=10000, index=False)
+    dim_company.to_sql('Dim_ProductionCompany', conn, if_exists='replace', chunksize=10000, index=False)
+    bridge_company.to_sql('Bridge_Show_ProductionCompany', conn, if_exists='replace', chunksize=10000, index=False)
     
+    conn.close()
     print("ETL Process completed successfully!")
 
 if __name__ == "__main__":

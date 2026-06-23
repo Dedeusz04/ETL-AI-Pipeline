@@ -1,3 +1,5 @@
+import sqlite3
+
 import pandas as pd
 import numpy as np
 import os
@@ -144,7 +146,7 @@ def run_etl(input_csv, output_dir):
     # ==========================================
     # ZAPIS WYNIKÓW
     # ==========================================
-    print("Zapis plików CSV...")
+    print("Zapis tabel do bazy SQLite...")
     exports = {
         'Dim_Title': dim_title,
         'Dim_ShowAttributes': dim_attributes,
@@ -160,10 +162,11 @@ def run_etl(input_csv, output_dir):
         'Fact_TV_Show': fact_tv_show
     }
     
-    for name, dataframe in exports.items():
-        file_path = os.path.join(output_dir, f'{name}.csv')
-        # 5. Zapis z index=False
-        dataframe.to_csv(file_path, index=False)
+    conn = sqlite3.connect('hurtownia.db')
+    for table_name, dataframe in exports.items():
+        dataframe.to_sql(table_name, conn, if_exists='replace', chunksize=10000, index=False)
+        print(f"Zapisano tabelę {table_name} do bazy SQLite.")
+    conn.close()
         
     print("Zakończono sukcesem!")
 

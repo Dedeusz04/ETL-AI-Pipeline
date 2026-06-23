@@ -1,3 +1,4 @@
+import sqlite3
 import pandas as pd
 import os
 
@@ -24,6 +25,8 @@ def generate_sample_data(file_path):
     }
     df = pd.DataFrame(data)
     # Zapisz przykładowe dane do pliku, aby posłużyły jako źródło w kolejnych uruchomieniach
+    print('Connecting to SQLite database hurtownia.db...')
+    conn = sqlite3.connect('hurtownia.db')
     df.to_csv(file_path, index=False)
     print(f"Wygenerowano przykładowy plik źródłowy: {file_path}")
     return df
@@ -75,10 +78,11 @@ def load(tables_dict, output_dir):
         os.makedirs(output_dir)
         print(f"Utworzono katalog wyjściowy: {output_dir}")
         
+    conn = sqlite3.connect('hurtownia.db')
     for table_name, df in tables_dict.items():
-        output_path = os.path.join(output_dir, f"{table_name}.csv")
-        df.to_csv(output_path, index=False)
-        print(f" -> Zapisano tabelę {table_name} do {output_path}")
+        df.to_sql(table_name, conn, if_exists='replace', chunksize=10000, index=False)
+        print(f" -> Zapisano tabelę {table_name} do bazy SQLite")
+    conn.close()
         
     print("Ładowanie danych zakończone sukcesem.")
 
@@ -101,3 +105,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    try:
+        conn.close()
+    except:
+        pass

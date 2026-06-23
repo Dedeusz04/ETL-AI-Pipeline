@@ -16,7 +16,7 @@ Skrypty wygenerowane przez AI dla poszczególnych wariantów promptów znajdują
 cd "1.Minimal Prompt"
 python3 etl.py
 ```
-Gotowe i przetworzone pliki CSV pojawią się wewnątrz folderu po wykonaniu skryptu.
+Gotowy plik z bazą SQLite (np. hurtownia.db) pojawi się wewnątrz folderu po wykonaniu skryptu.
 
 ---
 
@@ -53,7 +53,7 @@ Kluczowym elementem schematu było utworzenie tabel pośrednich N:M dla pól, w 
 ### 4. Odtwarzalność procesu
 *(Odtwarzalność procesu - sprawdzenie, czy wielokrotne uruchomienie wygenerowanego kodu nie powoduje błędów, duplikacji danych ani naruszenia integralności bazy)*
 
-Skrypty z Wariantów 2-7 zostały wygenerowane w taki sposób, że każde odpalenie nadpisuje wygenerowane pliki CSV (parametr `index=False` w `to_csv`). Sprawia to, że kod jest odporny i można go odpalać wielokrotnie bez obawy o powielenie danych.
+Skrypty z Wariantów 2-7 zostały wygenerowane w taki sposób, że każde odpalenie nadpisuje tabele w bazie SQLite (parametr `if_exists='replace'` w `to_sql`). Sprawia to, że kod jest odporny i można go odpalać wielokrotnie bez obawy o powielenie danych.
 
 ### 5. Odporność na błędy 
 *(Liczba błędów wykonania - liczba błędów pojawiających się podczas pierwszego uruchomienia wygenerowanego kodu)*
@@ -78,7 +78,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 ### Wariant 1
 *(jedynie ogólny opis zadania polegającego na przygotowaniu procesu ETL dla danych o serialach telewizyjnych, bez dodatkowego kontekstu, schematu danych.)*
 
-> Napisz mi skrypt w Pythonie, który zrobi proces ETL dla bazy seriali z pliku CSV. Podziel to na tabele faktów i wymiarów i wypluj jako nowe pliki CSV.
+> Napisz mi skrypt w Pythonie, który zrobi proces ETL dla bazy seriali z pliku CSV. Podziel to na tabele faktów i wymiarów i zapisz w bazie SQLite.
 
 ### Wariant 2
 *(zawierający opis tabel hurtowni danych i ich atrybutów, bez relacji między tabelami, bez diagramu oraz bez szczegółowych wymagań technicznych.)*
@@ -96,7 +96,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 > Bridge_Show_Network: show_id, network_id.
 > Dim_ProductionCompany: company_id, company_name.
 > Bridge_Show_ProductionCompany: show_id, company_id.
-> Zapisz to wszystko do osobnych CSV.
+> Zapisz to wszystko do bazy SQLite.
 
 ### Wariant 3
 *(zawierający opis tabel oraz relacji pomiędzy nimi, w tym relacji 1:N oraz N:M, bez schematu graficznego oraz bez dodatkowego kontekstu.)*
@@ -120,21 +120,21 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 > Sieci TV przez Bridge_Show_Network (show_id, network_id) do Dim_Network.
 > Produkcje przez Bridge_Show_ProductionCompany (show_id, company_id) do Dim_ProductionCompany.
 > 
-> Wyciągnij to ze źródła, połącz jak trzeba i zapisz jako CSVki.
+> Wyciągnij to ze źródła, połącz jak trzeba i zapisz w bazie SQLite.
 
 ### Wariant 4
 *(zawierający schemat hurtowni danych w postaci diagramu oraz krótki opis zadania, bez szczegółowego opisu tabel i bez specyfikacji technicznej.)*
 
 > [ZAŁĄCZ ZDJĘCIE DIAGRAMU Z OBRAZKA dbdiagram.io]
 > 
-> Masz na obrazku projekt hurtowni danych z serialami. Napisz mi skrypt w Pythonie, który weźmie jakiś przykładowy plik CSV i wygeneruje z niego taką strukturę tabel, jak widać na schemacie. Zapisz wynikowe tabele na dysk.
+> Masz na obrazku projekt hurtowni danych z serialami. Napisz mi skrypt w Pythonie, który weźmie jakiś przykładowy plik CSV i wygeneruje z niego taką strukturę tabel, jak widać na schemacie. Zapisz wynikowe tabele w bazie SQLite.
 
 ### Wariant 5
 *(zawierający schemat hurtowni danych wraz z informacją o źródle danych, bez pełnego opisu relacji i wymagań funkcjonalnych.)*
 
 > [ZAŁĄCZ ZDJĘCIE DIAGRAMU]
 > 
-> Twoim zadaniem jest przerzucenie danych z pliku TMDB_tv_dataset_v3.csv do modelu hurtowni z załączonego obrazka. W pliku źródłowym masz kolumny takie jak name, genres, created_by, first_air_date, number_of_seasons, czy vote_count. Napisz mi w Pythonie najlepiej w pandasie potok ETL, który przekształci ten płaski CSV, połączy wszystko tak jak na rysunku i wyeksportuje jako zestaw plików csv.
+> Twoim zadaniem jest przerzucenie danych z pliku TMDB_tv_dataset_v3.csv do modelu hurtowni z załączonego obrazka. W pliku źródłowym masz kolumny takie jak name, genres, created_by, first_air_date, number_of_seasons, czy vote_count. Napisz mi w Pythonie najlepiej w pandasie potok ETL, który przekształci ten płaski CSV, połączy wszystko tak jak na rysunku i wyeksportuje jako plik bazy SQLite .db.
 
 ### Wariant 6
 *(zawierający pełny kontekst projektu, schemat hurtowni danych, opis modelu oraz oczekiwane funkcjonalności procesu ETL, bez szczegółowej specyfikacji technicznej implementacji.)*
@@ -149,6 +149,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 > Rozbijanie list po przecinkach np. explode, żeby zbudować tabele pomostowe dla N:M.
 > Ogarnięcie dat i zrobienie porządnego wymiaru czasu (rok, miesiąc, kwartał).
 > Bezpieczną zamianę typów np. liczby sezonów czy czasu trwania na inty, usuwając po drodze śmieci tekstowe.
+> Na koniec zapisz wszystkie wygenerowane tabele w bazie SQLite.
 
 ### Wariant 7
 *(kompletny, zawierający pełną specyfikację techniczną, diagram modelu, opis datasetu, wymagania dotyczące integralności danych, obsługi relacji N:M oraz założeń dotyczących wielokrotnego uruchamiania procesu ETL.)*
@@ -161,5 +162,5 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 > Dim_Date: Zrób ID daty w formacie YYYYMMDD. Jak jakiejś daty brakuje, to wstaw nulle i podepnij pod sztuczną datę błędu 99991231, a samą datę przeparsuj przez pd.to_datetime().
 > Czyszczenie liczb: Czas trwania odcinka episode_run_time bywa zaśmiecony tekstowo. Użyj regexa albo astype, żeby wyciągnąć samego inta i żeby skrypt nie wywalił ValueError.
 > Bool: Przerób in_production z tekstu True/False na normalny boolean.
-> Idempotentność: Skrypt ma się odpalać za każdym razem tak samo i nie robić duplikatów. Używaj drop_duplicates, usuwaj stare pliki przed nadpisaniem i zrzucaj do csv z flagą index=False.
+> Idempotentność: Skrypt ma się odpalać za każdym razem tak samo i nie robić duplikatów. Używaj drop_duplicates, usuwaj stare tabele przed nadpisaniem i zrzucaj dane do bazy SQLite używając np. to_sql(if_exists='replace').
 > Klucze: Numeruj wymiary normalnie od 1 w górę w pętli dla wszystkich _id ze schematu, żeby klucze były spójne i żeby nic nam z bazy nie wyciekło.
