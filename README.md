@@ -1,8 +1,8 @@
-# Wykorzystanie metod AI do projektowania procesu ETL (AI ETL Pipeline)
+# Wykorzystanie metod AI do projektowania procesu ETL 
 
-Głównym celem projektu jest zbadanie możliwości autogeneracji kodu procesu ETL przez modele sztucznej inteligencji (LLM) na podstawie zadanego formatu zbioru danych wejściowych oraz docelowego modelu danych. Eksperyment polega na generowaniu potoku ETL przy wykorzystaniu promptów o różnym poziomie szczegółowości, a następnie na porównaniu jakości otrzymanych rozwiązań.
+Głównym celem projektu jest zbadanie możliwości autogeneracji kodu procesu ETL przez LLM na podstawie zadanego formatu zbioru danych wejściowych oraz docelowego modelu danych. Eksperyment polega na generowaniu potoku ETL przy wykorzystaniu promptów o różnym poziomie szczegółowości, a następnie na porównaniu jakości otrzymanych rozwiązań.
 
-Jako dane wejściowe wykorzystano plik `TMDB_tv_dataset_v3.csv`, a proces ETL jest realizowany w środowisku Python (z wykorzystaniem biblioteki `pandas`). Model LLM użyty w analizie to Google Gemini 3 Pro High.
+Jako dane wejściowe wykorzystano plik `TMDB_tv_dataset_v3.csv`, a proces ETL jest realizowany w środowisku Python z wykorzystaniem biblioteki `pandas`. Model LLM użyty w analizie to Google Gemini 3 Pro High.
 
 ## Jak to uruchomić?
 
