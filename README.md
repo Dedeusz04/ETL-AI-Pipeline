@@ -101,7 +101,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 ### Wariant 3
 *(zawierający opis tabel oraz relacji pomiędzy nimi, w tym relacji 1:N oraz N:M, bez schematu graficznego oraz bez dodatkowego kontekstu.)*
 
-> Mam zdenormalizowany plik CSV z serialami ("TMDB_tv_dataset_v3.csv"). Napisz mi skrypt ETL w Pythonie, który zbuduje z tego schemat gwiazdy.
+> Mam  plik CSV z serilami ("TMDB_tv_dataset_v3.csv"). Napisz mi skrypt ETL w Pythonie, który zbuduje z tego schemat gwiazdy.
 > Oczekiwana struktura docelowa tabel:
 > Fact_TV_Show: show_id, title_id, first_air_date_id, last_air_date_id, show_attributes_id, popularity, vote_average, vote_count.
 > Dim_Title: title_id, name, original_name, overview, tagline, status, type, original_language.
