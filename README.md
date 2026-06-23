@@ -63,7 +63,7 @@ Skrypty z Wariantów 2-7 zostały wygenerowane w taki sposób, że każde odpale
 * **P5-P7**: Skrypty wykonały się gładko za pierwszym razem, bez rzucania błędami w konsoli.
 
 ### Podsumowanie i wnioski
-Patrząc z inżynierskiego punktu widzenia, najwięcej problemów w wygenerowanych procesach sprawiały dwie rzeczy: halucynacje nazw kolumn oraz twarde hardkodowanie lokalnych ścieżek do plików. 
+Najwięcej problemów w wygenerowanych procesach sprawiały dwie rzeczy: halucynacje nazw kolumn oraz twarde hardkodowanie lokalnych ścieżek do plików. 
 
 Najlepiej w testach wypadł **prompt P6**, skrypt nie rzucił żadnym błędem, zbudował architekturę 1:1 z założeniami i nie zgubił ani jednego rekordu. Co ciekawe, podrzucenie jeszcze większej ilości tekstu do analizy (**prompt P7**) wcale nie pomogło. Wręcz przeciwnie, model uznał, że zrobi nam przysługę i sam trochę "zoptymalizuje" bazę wyrzucając nulle, przez co usunięto ok. 1% poprawnych rekordów.
 
