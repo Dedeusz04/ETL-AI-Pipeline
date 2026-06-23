@@ -125,7 +125,7 @@ Przygotowano 7 wariantów promptów o rosnącym poziomie szczegółowości. Poni
 ### Wariant 4
 *(zawierający schemat hurtowni danych w postaci diagramu oraz krótki opis zadania, bez szczegółowego opisu tabel i bez specyfikacji technicznej.)*
 
-> [ZAŁĄCZ ZDJĘCIE DIAGRAMU Z OBRAZKA dbdiagram.io]
+> [ZAŁĄCZ ZDJĘCIE DIAGRAMU Z OBRAZKA]
 > 
 > Masz na obrazku projekt hurtowni danych z serialami. Napisz mi skrypt w Pythonie, który weźmie jakiś przykładowy plik CSV i wygeneruje z niego taką strukturę tabel, jak widać na schemacie. Zapisz wynikowe tabele w bazie SQLite.
 
